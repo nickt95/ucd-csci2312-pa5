@@ -14,13 +14,13 @@ namespace Gaming {
 
     class Strategic : public Agent {
     private:
-        static const char STRATEGIC_ID;
+        static constexpr char STRATEGIC_ID = 'T';
 
         Strategy *__strategy;
 
     public:
-        Strategic(const Game &g, const Position &p, double energy, Strategy *s = new DefaultAgentStrategy());
-        ~Strategic();
+        Strategic(const Game &g, const Position &p, double energy, Strategy *s = new DefaultAgentStrategy()): Agent(g, p, energy), __strategy(s) { }
+        ~Strategic() { }
 
         PieceType getType() const override { return PieceType::STRATEGIC; }
 

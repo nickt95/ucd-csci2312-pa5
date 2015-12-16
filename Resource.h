@@ -5,8 +5,10 @@
 #ifndef PA5GAME_RESOURCE_H
 #define PA5GAME_RESOURCE_H
 
+#include <assert.h>
 #include "Game.h"
 #include "Piece.h"
+#include "Agent.h"
 
 namespace Gaming {
 
@@ -16,24 +18,33 @@ namespace Gaming {
         double __capacity;
         
     public:
-        static const double RESOURCE_SPOIL_FACTOR;
+        static constexpr double RESOURCE_SPOIL_FACTOR = 1.2;
 
         Resource(const Game &g, const Position &p, double __capacity);
-        ~Resource();
+        ~Resource() { }
 
         virtual double getCapacity() const { return __capacity; }
-        virtual double consume();
+        virtual double consume() {
+            this->finish();
+            return __capacity;
+        }
 
         void age() override final;
 
-        bool isViable() const override final { return !isFinished() && __capacity > 0.0; }
+        bool isViable() const override final { return !isFinished() && __capacity-.05 > 0.0; }
 
         ActionType takeTurn(const Surroundings &s) const override;
 
         // note: these won't be called while resources don't move
-        Piece &operator*(Piece &other) override final;
-        Piece &interact(Agent *) override final;
-        Piece &interact(Resource *) override final; // note: no interaction between resources
+        Piece &operator*(Piece &other) override final {
+            return other.interact(this);
+        }
+        Piece &interact(Agent *) override final {
+            assert(false);
+        }
+        Piece &interact(Resource *) override final {
+            assert(false);
+        } // note: no interaction between resources
     };
 
 }

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cassert>
 #include <regex>
+#include <sstream>
 
 #include "GamingTests.h"
 #include "ErrorContext.h"
@@ -99,7 +100,7 @@ void test_piece_print(ErrorContext &ec, unsigned int numRuns) {
                 std::string matchStr(m[0]);
                 std::regex r("[[:d:]]{1,}");
                 std::regex_search(matchStr, m, r);
-                id = stoi(m[0]);
+                std::istringstream(m[0]) >> id;
                 pass = true;
             }
 

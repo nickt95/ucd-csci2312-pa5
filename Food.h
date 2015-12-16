@@ -12,11 +12,11 @@ namespace Gaming {
 
     class Food : public Resource {
     private:
-        static const char FOOD_ID;
+        static const char FOOD_ID = 'F';
 
     public:
         Food(const Game &g, const Position &p, double capacity);
-        ~Food();
+        ~Food() { }
 
         PieceType getType() const override { return PieceType::FOOD; }
 

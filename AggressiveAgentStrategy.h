@@ -6,6 +6,7 @@
 #define PA5GAME_AGGRESSIVEAGENTSTRATEGY_H
 
 #include "Strategy.h"
+#include "Game.h"
 
 namespace Gaming {
 
@@ -13,10 +14,10 @@ namespace Gaming {
         double __agentEnergy;
 
     public:
-        static const double DEFAULT_AGGRESSION_THRESHOLD;
+        static constexpr double DEFAULT_AGGRESSION_THRESHOLD = Game::STARTING_AGENT_ENERGY*.75;
 
         AggressiveAgentStrategy(double agentEnergy);
-        ~AggressiveAgentStrategy();
+        ~AggressiveAgentStrategy() { }
         ActionType operator()(const Surroundings &s) const override;
 
     };

@@ -7,6 +7,7 @@
 
 #include "Game.h"
 #include "Piece.h"
+#include "Resource.h"
 
 namespace Gaming {
 
@@ -16,19 +17,21 @@ namespace Gaming {
         double __energy;
 
     public:
-        static const double AGENT_FATIGUE_RATE;
+        static constexpr double AGENT_FATIGUE_RATE = .3;
 
         Agent(const Game &g, const Position &p, double energy);
-        ~Agent();
+        ~Agent() { }
 
         double getEnergy() const { return __energy; }
         void addEnergy(double e) { __energy += e; }
 
-        void age() override final;
+        void age() override final { __energy -= AGENT_FATIGUE_RATE; }
 
         bool isViable() const override final { return !isFinished() && __energy > 0.0; }
 
-        Piece &operator*(Piece &other) override final;
+        Piece &operator*(Piece &other) override final {//TODO
+            return other.interact(this);
+        }
         Piece &interact(Agent *) override final;
         Piece &interact(Resource *) override final;
 

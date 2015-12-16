@@ -11,19 +11,19 @@
 namespace Gaming {
     class Advantage : public Resource {
     private:
-        static const char ADVANTAGE_ID;
+        static constexpr char ADVANTAGE_ID = 'D';
 
     public:
-        static const double ADVANTAGE_MULT_FACTOR;
+        static constexpr double ADVANTAGE_MULT_FACTOR = 2.0;
 
         Advantage(const Game &g, const Position &p, double capacity);
-        ~Advantage();
+        ~Advantage() { }
 
         PieceType getType() const override { return PieceType::ADVANTAGE; }
 
         void print(std::ostream &os) const override;
 
-        double getCapacity() const override;
+        double getCapacity() const override {return __capacity*ADVANTAGE_MULT_FACTOR;}
         double consume() override;
     };
 }

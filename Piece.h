@@ -34,7 +34,7 @@ namespace Gaming {
 
     public:
         Piece(const Game &g, const Position &p);
-        virtual ~Piece();
+        virtual ~Piece() { }
 
         const Position getPosition() const { return __position; }
         void setPosition(const Position &p) { __position = p; }
@@ -53,6 +53,9 @@ namespace Gaming {
         virtual Piece &interact(Resource *) = 0;
 
         friend std::ostream &operator<<(std::ostream &os, const Piece &piece);
+        void myPrint(std::ostream &os) const{
+            print(os);
+        }
     };
 }
 

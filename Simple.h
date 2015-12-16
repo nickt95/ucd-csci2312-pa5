@@ -12,11 +12,11 @@ namespace Gaming {
 
     class Simple : public Agent {
     private:
-        static const char SIMPLE_ID;
+        static constexpr char SIMPLE_ID = 'S';
 
     public:
-        Simple(const Game &g, const Position &p, double energy);
-        ~Simple();
+        Simple(const Game &g, const Position &p, double energy): Agent(g, p, energy) { }
+        ~Simple() { }
 
         PieceType getType() const override { return PieceType::SIMPLE; }
 

@@ -24,8 +24,8 @@ namespace Gaming {
         enum Status { NOT_STARTED, PLAYING, OVER };
 
     private:
-        static const unsigned int NUM_INIT_AGENT_FACTOR;
-        static const unsigned int NUM_INIT_RESOURCE_FACTOR;
+        static const unsigned int NUM_INIT_AGENT_FACTOR = 4;
+        static const unsigned int NUM_INIT_RESOURCE_FACTOR = 2;
 
         static PositionRandomizer __posRandomizer;
 
@@ -43,9 +43,10 @@ namespace Gaming {
         bool __verbose;
 
     public:
-        static const unsigned MIN_WIDTH, MIN_HEIGHT;
-        static const double STARTING_AGENT_ENERGY;
-        static const double STARTING_RESOURCE_CAPACITY;
+        static const unsigned MIN_HEIGHT = 3;
+        static const unsigned MIN_WIDTH = 3;
+        static constexpr double STARTING_AGENT_ENERGY = 20;
+        static constexpr double STARTING_RESOURCE_CAPACITY = 10;
 
         Game();
         Game(unsigned width, unsigned height, bool manual = true); // note: manual population by default
@@ -60,9 +61,10 @@ namespace Gaming {
         unsigned int getNumAgents() const;
         unsigned int getNumSimple() const;
         unsigned int getNumStrategic() const;
-        unsigned int getNumResources();
+        unsigned int getNumResources() const;
         Status getStatus() const { return __status; }
         unsigned int getRound() const { return __round; }
+        std::vector<Piece *> getGrid() const { return __grid;}
 
         // grid population methods
         bool addSimple(const Position &position);
