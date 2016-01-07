@@ -29,7 +29,7 @@ namespace Gaming {
 
         bool isViable() const override final { return !isFinished() && __energy > 0.0; }
 
-        Piece &operator*(Piece &other) override final {//TODO
+        Piece &operator*(Piece &other) override final {
             return other.interact(this);
         }
         Piece &interact(Agent *) override final;

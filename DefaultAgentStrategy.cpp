@@ -68,6 +68,6 @@ Gaming::ActionType Gaming::DefaultAgentStrategy::operator()(const Gaming::Surrou
         case 8:
             return ActionType::SE;
         default:
-            assert(false);
+            return ActionType::STAY;
     }
 }

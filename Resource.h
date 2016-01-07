@@ -39,10 +39,10 @@ namespace Gaming {
         Piece &operator*(Piece &other) override final {
             return other.interact(this);
         }
-        Piece &interact(Agent *) override final {
+        Piece &interact(Agent *a) override final {
             assert(false);
         }
-        Piece &interact(Resource *) override final {
+        Piece &interact(Resource *r) override final {
             assert(false);
         } // note: no interaction between resources
     };

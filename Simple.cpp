@@ -51,6 +51,6 @@ Gaming::ActionType Gaming::Simple::takeTurn(const Gaming::Surroundings &s) const
         case 8:
             return ActionType::SE;
         default:
-            assert(false);
+            return ActionType::STAY;
     }
 }

@@ -77,6 +77,6 @@ Gaming::ActionType Gaming::AggressiveAgentStrategy::operator()(const Gaming::Sur
         case 8:
             return ActionType::SE;
         default:
-            assert(false);
+            return ActionType::STAY;
     }
 }

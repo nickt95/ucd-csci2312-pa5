@@ -66,7 +66,7 @@ Gaming::Game::Game(): __width(3), __height(3), __round(1), __status(Status::NOT_
 }
 
 Gaming::Game::Game(unsigned width, unsigned height, bool manual):__width(width), __height(height), __round(1), __status(Status::NOT_STARTED) {
-    if(width >= MIN_WIDTH && height >= MIN_HEIGHT){
+    if(width < MIN_WIDTH && height < MIN_HEIGHT){
         InsufficientDimensionsEx ex(MIN_WIDTH, MIN_HEIGHT, width, height);
         throw ex;
     }
@@ -94,7 +94,7 @@ unsigned int Gaming::Game::getNumSimple() const {
     unsigned int curr = 0;
 
     for(int i = 0; i < __grid.size(); i++){
-        if(__grid[i]->getType() == PieceType::SIMPLE) curr++;
+        //if(__grid[i]->getType() == PieceType::SIMPLE) curr++;
     }
 
     return curr;
@@ -104,7 +104,7 @@ unsigned int Gaming::Game::getNumStrategic() const {
     unsigned int curr = 0;
 
     for(int i = 0; i < __grid.size(); i++){
-        if(__grid[i]->getType() == PieceType::STRATEGIC) curr++;
+        //if(__grid[i]->getType() == PieceType::STRATEGIC) curr++;
     }
 
     return curr;
@@ -114,17 +114,17 @@ unsigned int Gaming::Game::getNumResources() const {
     unsigned int curr = 0;
 
     for(int i = 0; i < __grid.size(); i++){
-        if(__grid[i]->getType() == PieceType::FOOD || __grid[i]->getType() == PieceType::ADVANTAGE) curr++;
+        //if(__grid[i]->getType() == PieceType::FOOD || __grid[i]->getType() == PieceType::ADVANTAGE) curr++;
     }
 
     return curr;
 }
 
 bool Gaming::Game::addSimple(const Gaming::Position &position) {
-    if(position.x < 0 || position.y < 0 || position.x >= __width || position.y >= __height){
-        OutOfBoundsEx ex(__width, __height, position.x, position.y);
-        throw ex;
-    }
+    //if(position.x < 0 || position.y < 0 || position.x >= __width || position.y >= __height){
+    //    OutOfBoundsEx ex(__width, __height, position.x, position.y);
+    //    throw ex;
+    //}
 
     int index = (__width*position.x)+position.y;
 
@@ -137,10 +137,10 @@ bool Gaming::Game::addSimple(const Gaming::Position &position) {
 }
 
 bool Gaming::Game::addStrategic(const Gaming::Position &position, Gaming::Strategy *s) {
-    if(position.x < 0 || position.y < 0 || position.x >= __width || position.y >= __height){
-        OutOfBoundsEx ex(__width, __height, position.x, position.y);
-        throw ex;
-    }
+    //if(position.x < 0 || position.y < 0 || position.x >= __width || position.y >= __height){
+    //    OutOfBoundsEx ex(__width, __height, position.x, position.y);
+    //    throw ex;
+    //}
 
     int index = (__width*position.x)+position.y;
 
@@ -153,10 +153,10 @@ bool Gaming::Game::addStrategic(const Gaming::Position &position, Gaming::Strate
 }
 
 bool Gaming::Game::addFood(const Gaming::Position &position) {
-    if(position.x < 0 || position.y < 0 || position.x >= __width || position.y >= __height){
-        OutOfBoundsEx ex(__width, __height, position.x, position.y);
-        throw ex;
-    }
+    //if(position.x < 0 || position.y < 0 || position.x >= __width || position.y >= __height){
+    //    OutOfBoundsEx ex(__width, __height, position.x, position.y);
+    //    throw ex;
+    //}
 
     int index = (__width*position.x)+position.y;
 
@@ -191,16 +191,18 @@ const Gaming::Surroundings Gaming::Game::getSurroundings(const Gaming::Position 
     }
 
     Surroundings s;
+    s.array = {PieceType::EMPTY, PieceType::EMPTY, PieceType::EMPTY, PieceType::EMPTY, PieceType::EMPTY, PieceType::EMPTY, PieceType::EMPTY, PieceType::EMPTY, PieceType::EMPTY};
     Position curr;
     int index;
     bool done;
+    PieceType temp;
 
     for(int ix = -1; ix <= 1; ix++){
         for(int iy = -1; iy <= 1; iy++){
             curr = pos;
             curr.x += ix;
             curr.y += iy;
-            index = (__width*curr.x)*curr.y;
+            index = (__width*curr.x)+curr.y;
             done = false;
 
             if(curr.x < 0 || curr.y < 0 || curr.x >= __width || curr.y >= __height){
@@ -223,7 +225,8 @@ const Gaming::Surroundings Gaming::Game::getSurroundings(const Gaming::Position 
             }
 
             if(!done){
-                s.array[(3*(ix+1))+iy+1] = __grid[index]->getType();
+                temp = __grid[index]->getType();
+                s.array[(3*(ix+1))+iy+1] = temp;
             }
         }
     }
@@ -398,7 +401,7 @@ void Gaming::Game::round() {
 
                         if(__grid[i]->isViable() && __grid[(__width*newP.x)+newP.y] == nullptr){
                             __grid[(__width*newP.x)+newP.y] = __grid[i];
-                            __grid[i] = nullptr;
+                            __grid[i]->finish();
                         }
 
                         if(!__grid[i]->isViable()){
